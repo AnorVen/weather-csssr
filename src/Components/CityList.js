@@ -6,7 +6,7 @@ const CityList = ({ list, getDetails }) => {
 		<ul>
 			{list[1].map((item, i) => (
 				<li key={i} onClick={() => getDetails(item, list[0])}>
-					{item}
+					{item.title}
 				</li>
 			))}
 		</ul>

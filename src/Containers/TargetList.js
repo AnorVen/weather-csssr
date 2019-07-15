@@ -16,7 +16,10 @@ class TargetList extends Component {
 			if (!arrOut[value.country]) {
 				arrOut[value.country] = [];
 			}
-			arrOut[value.country].push(value.name);
+			arrOut[value.country].push({
+				title: value.name,
+				id: value.id,
+			});
 		});
 		arrOut = Object.entries(arrOut).sort((item, nextItem) => {
 			if (item[0] > nextItem[0]) {
