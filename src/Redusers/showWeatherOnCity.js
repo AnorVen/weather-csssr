@@ -1,8 +1,12 @@
 import {} from '../Actions';
+import { GET_DETAILS } from '../Constats';
 const initialState = {};
 export default function(state = initialState, action) {
 	switch (action.type) {
-		case ADD_TODO: {
+		case GET_DETAILS: {
+			return console.log(action.payload);
+		}
+		/*	case ADD_TODO: {
 			const { id, content } = action.payload;
 			return {
 				...state,
@@ -28,7 +32,7 @@ export default function(state = initialState, action) {
 					},
 				},
 			};
-		}
+		}*/
 		default:
 			return state;
 	}
