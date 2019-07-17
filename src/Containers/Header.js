@@ -27,7 +27,6 @@ class Header extends Component {
 
 	render() {
 		const { currentDate } = this.props;
-		console.log(currentDate);
 		return (
 			<HeaderContent>
 				<Wrapper>

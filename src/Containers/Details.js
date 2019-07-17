@@ -23,19 +23,19 @@ class Details extends Component {
 			return <p>выберите город</p>;
 		} else {
 			let tempData = result.list.slice(-8);
-
-			console.log(tempData);
 			return (
 				<div>
 					<p> {result.city.name}</p>
 					<table>
-						{tempData.map(item => (
-							<tr key={item.dt}>
-								<td>{item.dt_txt}</td>
-								<td>{item.main.temp} *C</td>
-								<td>{item.weather[0].description}</td>
-							</tr>
-						))}
+						<tbody>
+							{tempData.map(item => (
+								<tr key={item.dt}>
+									<td>{item.dt_txt}</td>
+									<td>{item.main.temp} *C</td>
+									<td>{item.weather[0].description}</td>
+								</tr>
+							))}
+						</tbody>
 					</table>
 				</div>
 			);
