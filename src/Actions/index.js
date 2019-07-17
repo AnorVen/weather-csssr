@@ -1,25 +1,51 @@
-import { ADD_TODO, TOGGLE_TODO, SET_FILTER, GET_DETAILS } from '../Constats';
-
-let nextTodoId = 0;
-
-export const addTodo = content => ({
-	type: ADD_TODO,
-	payload: {
-		id: ++nextTodoId,
-		content,
-	},
+import {
+	GET_DETAILS_REQUEST,
+	GET_DETAILS_SUCCESS,
+	GET_DATE,
+	DETAILS,
+	ERROR_REQUEST,
+} from '../Constats';
+import ReduxThunk from 'redux-thunk';
+import axios from 'axios';
+const apiKey = '108aecd085c5e10a193fa4d7440ba5cb';
+export const getDetailsREQUESTAction = id => ({
+	type: GET_DETAILS_REQUEST,
+	payload: id,
+});
+export const getDetailsSUCCESSAction = id => ({
+	type: GET_DETAILS_SUCCESS,
+	payload: id,
+});
+export const getDateAction = date => ({
+	type: GET_DATE,
+	payload: date,
 });
 
-export const getDetailsAction = (city, country) => ({
-	type: GET_DETAILS,
-	payload: {
-		city,
-		country,
-	},
+export const itemsFetchDataSuccess = item => ({
+	type: DETAILS,
+	payload: item,
 });
-export const toggleTodo = id => ({
-	type: TOGGLE_TODO,
-	payload: { id },
+export const itemsHasErrored = message => ({
+	type: ERROR_REQUEST,
+	payload: message,
 });
+export function itemsFetchData(id) {
+	return (dispatch, getState) => {
+		//dispatch(getDetailsREQUESTAction(id));
+		axios
+			.get(`api.openweathermap.org/data/2.5/weather?id=${id}&apikey=${apiKey}`)
+			.then(response => {
+				console.log(response);
+				if (!response.ok) {
+					throw Error(response.statusText);
+				}
 
-export const setFilter = filter => ({ type: SET_FILTER, payload: { filter } });
+				dispatch(getDetailsSUCCESSAction(id));
+
+				return response;
+			})
+			.then(response => response.json())
+			.then(items => dispatch(itemsFetchDataSuccess(items)))
+			.catch(e => dispatch(itemsHasErrored(e)));
+	};
+}

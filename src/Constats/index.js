@@ -1,4 +1,5 @@
-export const ADD_TODO = 'ADD_TODO';
-export const TOGGLE_TODO = 'TOGGLE_TODO';
-export const SET_FILTER = 'SET_FILTER';
-export const GET_DETAILS = 'GET_DETAILS';
+export const GET_DETAILS_REQUEST = 'GET_DETAILS_REQUEST';
+export const GET_DETAILS_SUCCESS = 'GET_DETAILS_SUCCESS';
+export const GET_DATE = 'GET_DATE';
+export const DETAILS = 'DETAILS';
+export const ERROR_REQUEST = 'ERROR_REQUEST';

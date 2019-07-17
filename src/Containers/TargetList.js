@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { getDetails } from '../Actions';
+import { itemsFetchData } from '../Actions';
 import { connect } from 'react-redux';
 import Country from '../Components/Country';
 import CityList from '../Components/CityList';
 //import list from '../city.js';
 import cityList from '../Redusers/cityList';
-import { getDetailsAction } from '../Actions';
+import { getDetailsREQUESTAction } from '../Actions';
 
 class TargetList extends Component {
 	render() {
@@ -48,8 +48,8 @@ export default connect(
 	},
 	dispatch => {
 		return {
-			getDetails: (city, country) => {
-				dispatch(getDetailsAction(city, country));
+			getDetails: id => {
+				dispatch(itemsFetchData(id));
 			},
 		};
 	}
