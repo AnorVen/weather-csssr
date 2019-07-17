@@ -4,10 +4,15 @@ import {
 	GET_DATE,
 	DETAILS,
 	ERROR_REQUEST,
+	GET_LIST,
 } from '../Constats';
-import ReduxThunk from 'redux-thunk';
 import axios from 'axios';
+
 const apiKey = '108aecd085c5e10a193fa4d7440ba5cb';
+
+export const getListAction = () => ({
+	type: GET_LIST,
+});
 export const getDetailsREQUESTAction = id => ({
 	type: GET_DETAILS_REQUEST,
 	payload: id,
@@ -29,23 +34,29 @@ export const itemsHasErrored = message => ({
 	type: ERROR_REQUEST,
 	payload: message,
 });
-export function itemsFetchData(id) {
-	return (dispatch, getState) => {
-		//dispatch(getDetailsREQUESTAction(id));
-		axios
-			.get(`api.openweathermap.org/data/2.5/weather?id=${id}&apikey=${apiKey}`)
-			.then(response => {
-				console.log(response);
-				if (!response.ok) {
-					throw Error(response.statusText);
-				}
+export const itemsFetchData = (date, id) => (dispatch, getState) => {
+	console.log(date);
+	console.log(date * 1000 - Date.now());
+	date = date - Date.now() > 0 ? (new Date(date - Date.now()).getDate() + 1) * 8 : 8;
+	console.log(date);
+	dispatch(getDetailsREQUESTAction(id));
+	fetch(
+		`https://api.openweathermap.org/data/2.5/forecast?id=${id}&cnt=${date}&lang=ru&units=metric&appid=${apiKey}`
+	)
+		// fetch(`https://api.openweathermap.org/data/2.5/climate/month?id=${id}&lang=ru&units=metric&appid=${apiKey}`)
+		.then(response => {
+			console.log(response);
+			if (!response.ok) {
+				throw Error(response.statusText);
+			}
 
-				dispatch(getDetailsSUCCESSAction(id));
+			dispatch(getDetailsSUCCESSAction(id));
 
-				return response;
-			})
-			.then(response => response.json())
-			.then(items => dispatch(itemsFetchDataSuccess(items)))
-			.catch(e => dispatch(itemsHasErrored(e)));
-	};
-}
+			return response;
+		})
+		.then(response => {
+			return response.json();
+		})
+		.then(items => dispatch(itemsFetchDataSuccess(items)))
+		.catch(e => dispatch(itemsHasErrored(e)));
+};

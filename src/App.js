@@ -4,13 +4,13 @@ import { Provider } from 'react-redux';
 import styled from 'styled-components';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import TargetList from './Containers/TargetList';
 import Details from './Containers/Details';
 import Header from './Containers/Header';
 import rootReducer from './Redusers';
-import list from './city.js';
 
-const store = createStore(rootReducer, { cityList: list }, applyMiddleware(logger, thunk));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger, thunk)));
 
 const Main = styled.div`
 	background-color: #eee;

@@ -1,18 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import DatePicker, { registerLocale, setDefaultLocale } from 'react-datepicker';
-import ru from 'date-fns/locale/ru';
-import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from 'react-date-picker';
+
 import { getDateAction } from '../Actions';
-
-registerLocale('ru', ru);
-
-function mapStateToProps(state) {
-	return {
-		date: state.getDetails.date,
-	};
-}
 
 const HeaderContent = styled.div`
 	height: 50px;
@@ -29,26 +20,37 @@ const Wrapper = styled.div`
 `;
 
 class Header extends Component {
-	handleChange = date => this.props.getDate(date);
+	handleChange = date => {
+		console.log(date);
+		this.props.getDate(Date.parse(date) + 60 * 60 * 24 - 1);
+	};
+
 	render() {
+		const { currentDate } = this.props;
+		console.log(currentDate);
 		return (
 			<HeaderContent>
 				<Wrapper>
 					<p>Header</p>
-					<DatePicker
-						locale="ru"
-						dateFormat={'dd/MM/yyyy'}
-						selected={this.props.date}
-						onChange={this.handleChange}
-					/>
+					<div>
+						<DatePicker
+							minDate={new Date(Date.now())}
+							maxDate={new Date(Date.now() + 60 * 60 * 24 * 5 * 1000)}
+							value={new Date(currentDate)}
+							onChange={this.handleChange}
+						/>
+					</div>
 				</Wrapper>
 			</HeaderContent>
 		);
 	}
 }
-
 export default connect(
-	mapStateToProps,
+	state => {
+		return {
+			currentDate: state.getDetails.date,
+		};
+	},
 	dispatch => {
 		return {
 			getDate: date => {

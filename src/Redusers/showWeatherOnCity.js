@@ -11,7 +11,8 @@ const initialState = {
 	cityId: '',
 	weather: 0,
 	date: Date.now(),
-	result: {},
+	result: '',
+	error: '',
 };
 export default function(state = initialState, action) {
 	switch (action.type) {
@@ -20,8 +21,7 @@ export default function(state = initialState, action) {
 			return { ...state, cityId: action.payload, loading: true };
 		}
 		case GET_DETAILS_SUCCESS: {
-			console.log(action.payload);
-			return { ...state, cityId: action.payload, loading: false };
+			return { ...state, loading: false };
 		}
 		case GET_DATE: {
 			console.log(action.payload);
@@ -29,7 +29,7 @@ export default function(state = initialState, action) {
 		}
 		case ERROR_REQUEST: {
 			console.log(action.payload);
-			return { ...state, loading: false, result: action.payload.message };
+			return { ...state, loading: false, error: action.payload.message };
 		}
 		case DETAILS: {
 			console.log(action.payload);
