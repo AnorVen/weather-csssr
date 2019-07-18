@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 function mapStateToProps(state) {
 	return {
@@ -11,6 +12,7 @@ function mapStateToProps(state) {
 
 class Details extends Component {
 	render() {
+		console.log('Details render');
 		const { isLoad, result, error } = this.props;
 		console.log(result);
 		if (isLoad) {
@@ -42,5 +44,68 @@ class Details extends Component {
 		}
 	}
 }
-
+Details.defaultProps = {
+	isLoad: false,
+	result: {
+		city: {
+			name: '',
+		},
+		list: [
+			{
+				dt: Date.now(),
+				dt_txt: new Date(Date.now()),
+				main: { temp: 0 },
+				weather: [{ description: '' }],
+			},
+			{
+				dt: Date.now(),
+				dt_txt: new Date(Date.now()),
+				main: { temp: 0 },
+				weather: [{ description: '' }],
+			},
+			{
+				dt: Date.now(),
+				dt_txt: new Date(Date.now()),
+				main: { temp: 0 },
+				weather: [{ description: '' }],
+			},
+			{
+				dt: Date.now(),
+				dt_txt: new Date(Date.now()),
+				main: { temp: 0 },
+				weather: [{ description: '' }],
+			},
+			{
+				dt: Date.now(),
+				dt_txt: new Date(Date.now()),
+				main: { temp: 0 },
+				weather: [{ description: '' }],
+			},
+			{
+				dt: Date.now(),
+				dt_txt: new Date(Date.now()),
+				main: { temp: 0 },
+				weather: [{ description: '' }],
+			},
+			{
+				dt: Date.now(),
+				dt_txt: new Date(Date.now()),
+				main: { temp: 0 },
+				weather: [{ description: '' }],
+			},
+			{
+				dt: Date.now(),
+				dt_txt: new Date(Date.now()),
+				main: { temp: 0 },
+				weather: [{ description: '' }],
+			},
+		],
+	},
+	error: '',
+};
+Details.PropTypes = {
+	isLoad: PropTypes.bool,
+	error: PropTypes.string,
+	result: PropTypes.object,
+};
 export default connect(mapStateToProps)(Details);

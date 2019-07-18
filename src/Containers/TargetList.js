@@ -4,14 +4,25 @@ import { connect } from 'react-redux';
 import Country from '../Components/Country';
 import CityList from '../Components/CityList';
 import { getListAction } from '../Actions';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const List = styled.ul`
+	visibility: ${p => (p.show ? 'visible' : 'hidden')};
+	opacity: ${p => (p.show ? 1 : 0)};
+	height: ${p => (p.show ? 'auto' : 0)};
+	${p => p.css || null}
+`;
 
 class TargetList extends Component {
 	state = {
 		showCity: 'AM',
 	};
+
 	componentDidMount() {
 		this.props.getList();
 	}
+
 	checkCity = id => {
 		const date = this.props.date;
 		console.log(date);
@@ -25,7 +36,14 @@ class TargetList extends Component {
 			showCity: country,
 		});
 	};
+	componentDidUpdate(prevProps) {
+		if (this.props.date !== prevProps.date && this.props.cityId === prevProps.cityId) {
+			return false;
+		}
+	}
+
 	render() {
+		console.log('TargetList render');
 		let arrOut = {};
 		this.props.cityList.forEach(function(value) {
 			if (!arrOut[value.country]) {
@@ -49,12 +67,9 @@ class TargetList extends Component {
 				{arrOut.map((item, i) => (
 					<div key={i}>
 						<Country title={item[0]} showCity={this.handleClick} />
-
-						<CityList
-							show={this.state.showCity === item[0]}
-							list={item}
-							getDetails={this.checkCity}
-						/>
+						<List show={this.state.showCity === item[0]}>
+							<CityList list={item} getDetails={this.checkCity} />
+						</List>
 					</div>
 				))}
 			</div>
@@ -62,6 +77,22 @@ class TargetList extends Component {
 	}
 }
 
+TargetList.defaultProps = {
+	cityList: [
+		{
+			id: 519188,
+			name: 'Novinki',
+			country: 'RU',
+		},
+	],
+	date: Date.now(),
+	cityId: 0,
+};
+TargetList.propTypes = {
+	cityList: PropTypes.array,
+	date: PropTypes.number,
+	cityId: PropTypes.number,
+};
 export default connect(
 	state => {
 		return {

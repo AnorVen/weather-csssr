@@ -1,5 +1,15 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 
-const Country = ({ title, showCity }) => <div onClick={() => showCity(title)}>{title}</div>;
+class Country extends PureComponent {
+	render() {
+		const { title, showCity } = this.props;
+		return (
+			<div onClick={() => showCity(title)}>
+				{console.log('Country render')}
+				{title}
+			</div>
+		);
+	}
+}
 
 export default Country;

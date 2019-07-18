@@ -10,7 +10,7 @@ import Details from './Containers/Details';
 import Header from './Containers/Header';
 import rootReducer from './Redusers';
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger, thunk)));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
 const Main = styled.div`
 	background-color: #eee;
@@ -25,6 +25,7 @@ const Content = styled.div`
 `;
 
 const App = () => {
+	console.log('App render');
 	return (
 		<Provider store={store}>
 			<Main>

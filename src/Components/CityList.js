@@ -1,22 +1,26 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { Component, PureComponent, Fragment } from 'react';
 
-const List = styled.ul`
-	visibility: ${p => (p.show ? 'visible' : 'hidden')};
-	opacity: ${p => (p.show ? 1 : 0)};
-	height: ${p => (p.show ? 'auto' : 0)};
-	${p => p.css || null}
-`;
-const CityList = ({ list, getDetails, show }) => {
-	return (
-		<List show={show}>
-			{list[1].map((item, i) => (
-				<li key={i} onClick={() => getDetails(item.id)}>
-					{item.title}
-				</li>
-			))}
-		</List>
-	);
-};
+class CityList extends Component {
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		if (nextProps === this.props) {
+			return false;
+		}
+	}
+
+	render() {
+		console.log('CityList render');
+		const { list, getDetails } = this.props;
+		return (
+			<Fragment>
+				{list[1].map((item, i) => (
+					<li key={i} onClick={() => getDetails(item.id)}>
+						{console.log(`CityList render ${item.title}`)}
+						{item.title}
+					</li>
+				))}
+			</Fragment>
+		);
+	}
+}
 
 export default CityList;

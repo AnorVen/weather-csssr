@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import DatePicker from 'react-date-picker';
 
 import { getDateAction } from '../Actions';
+import PropTypes from 'prop-types';
 
 const HeaderContent = styled.div`
 	height: 50px;
@@ -21,11 +22,11 @@ const Wrapper = styled.div`
 
 class Header extends Component {
 	handleChange = date => {
-		console.log(date);
 		this.props.getDate(Date.parse(date) + 60 * 60 * 24 - 1);
 	};
 
 	render() {
+		console.log('Header render');
 		const { currentDate } = this.props;
 		return (
 			<HeaderContent>
@@ -44,6 +45,13 @@ class Header extends Component {
 		);
 	}
 }
+
+Header.defaultProps = {
+	currentDate: Date.now(),
+};
+Header.propTypes = {
+	currentDate: PropTypes.number,
+};
 export default connect(
 	state => {
 		return {
