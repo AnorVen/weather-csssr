@@ -6,7 +6,7 @@ import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import TargetList from './Containers/TargetList';
-import Details from './Containers/Details';
+import Details from './Components/Details';
 import Header from './Containers/Header';
 import rootReducer from './Redusers';
 

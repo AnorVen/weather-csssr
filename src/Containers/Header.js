@@ -20,6 +20,10 @@ const Wrapper = styled.div`
 `;
 
 class Header extends Component {
+	shouldComponentUpdate(nextProps, nextState, nextContext) {
+		return nextProps.currentDate !== this.props.currentDate;
+	}
+
 	handleChange = date => {
 		if (new Date(this.props.currentDate).getDate() !== new Date(date).getDate()) {
 			this.props.getDate(Date.parse(date));

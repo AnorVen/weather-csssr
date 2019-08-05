@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Country from '../Components/Country';
-import CityList from '../Components/CityList';
+import CityList from './CityList';
 import { getListAction } from '../Actions';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -38,14 +38,14 @@ class TargetList extends Component {
 		});
 
 		return (
-			<div>
+			<Wrap>
 				{arrOut.map((item, i) => (
 					<div key={i}>
 						<Country title={item[0]} />
 						<CityList list={item} />
 					</div>
 				))}
-			</div>
+			</Wrap>
 		);
 	}
 }
