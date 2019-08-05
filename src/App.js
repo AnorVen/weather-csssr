@@ -10,11 +10,10 @@ import Details from './Containers/Details';
 import Header from './Containers/Header';
 import rootReducer from './Redusers';
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger, thunk)));
 
 const Main = styled.div`
 	background-color: #eee;
-	font-family: Arial, sans-serif;
 	color: #000;
 `;
 

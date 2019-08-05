@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { changeTargenCountry } from '../Actions';
 
 class Country extends PureComponent {
 	render() {
@@ -12,4 +14,13 @@ class Country extends PureComponent {
 	}
 }
 
-export default Country;
+export default connect(
+	state => ({}),
+	dispatch => {
+		return {
+			showCity: country => {
+				dispatch(changeTargenCountry(country));
+			},
+		};
+	}
+)(Country);

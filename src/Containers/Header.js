@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import DatePicker from 'react-date-picker';
-
-import { getDateAction } from '../Actions';
+import { getDateAction, itemsFetchData } from '../Actions';
 import PropTypes from 'prop-types';
 
 const HeaderContent = styled.div`
@@ -22,7 +21,12 @@ const Wrapper = styled.div`
 
 class Header extends Component {
 	handleChange = date => {
-		this.props.getDate(Date.parse(date) + 60 * 60 * 24 - 1);
+		if (new Date(this.props.currentDate).getDate() !== new Date(date).getDate()) {
+			this.props.getDate(Date.parse(date));
+			if (!!this.props.cityId) {
+				this.props.getDetails(Date.parse(date), this.props.cityId);
+			}
+		}
 	};
 
 	render() {
@@ -35,7 +39,7 @@ class Header extends Component {
 					<div>
 						<DatePicker
 							minDate={new Date(Date.now())}
-							maxDate={new Date(Date.now() + 60 * 60 * 24 * 5 * 1000)}
+							maxDate={new Date(Date.now() + 60 * 60 * 24 * 4 * 1000)}
 							value={new Date(currentDate)}
 							onChange={this.handleChange}
 						/>
@@ -48,20 +52,26 @@ class Header extends Component {
 
 Header.defaultProps = {
 	currentDate: Date.now(),
+	cityId: 0,
 };
 Header.propTypes = {
 	currentDate: PropTypes.number,
+	cityId: PropTypes.number,
 };
 export default connect(
 	state => {
 		return {
 			currentDate: state.getDetails.date,
+			cityId: state.getDetails.cityId,
 		};
 	},
 	dispatch => {
 		return {
 			getDate: date => {
 				dispatch(getDateAction(date));
+			},
+			getDetails: (date, id) => {
+				dispatch(itemsFetchData(date, id));
 			},
 		};
 	}

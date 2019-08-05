@@ -4,14 +4,16 @@ import {
 	GET_DATE,
 	DETAILS,
 	ERROR_REQUEST,
+	TARGET_COUNTRY,
 } from '../Constats';
 
 const initialState = {
+	targetCountry: 'AM',
 	loading: false,
-	cityId: '',
+	cityId: 0,
 	weather: 0,
 	date: Date.now(),
-	result: '',
+	result: {},
 	error: '',
 };
 export default function(state = initialState, action) {
@@ -30,6 +32,9 @@ export default function(state = initialState, action) {
 		}
 		case DETAILS: {
 			return { ...state, result: action.payload };
+		}
+		case TARGET_COUNTRY: {
+			return { ...state, targetCountry: action.payload };
 		}
 		default:
 			return state;

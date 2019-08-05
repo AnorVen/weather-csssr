@@ -5,6 +5,7 @@ import {
 	DETAILS,
 	ERROR_REQUEST,
 	GET_LIST,
+	TARGET_COUNTRY,
 } from '../Constats';
 
 const apiKey = '108aecd085c5e10a193fa4d7440ba5cb';
@@ -23,6 +24,10 @@ export const getDetailsSUCCESSAction = id => ({
 export const getDateAction = date => ({
 	type: GET_DATE,
 	payload: date,
+});
+export const changeTargenCountry = country => ({
+	type: TARGET_COUNTRY,
+	payload: country,
 });
 
 export const itemsFetchDataSuccess = item => ({
