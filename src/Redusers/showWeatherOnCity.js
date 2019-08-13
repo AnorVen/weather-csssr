@@ -1,11 +1,4 @@
-import {
-	GET_DETAILS_REQUEST,
-	GET_DETAILS_SUCCESS,
-	GET_DATE,
-	DETAILS,
-	ERROR_REQUEST,
-	TARGET_COUNTRY,
-} from '../Constats';
+import { GET_DETAILS_REQUEST, GET_DATE, DETAILS, ERROR_REQUEST, TARGET_COUNTRY } from '../Constats';
 
 const initialState = {
 	targetCountry: 'AM',
@@ -21,9 +14,6 @@ export default function(state = initialState, action) {
 		case GET_DETAILS_REQUEST: {
 			return { ...state, cityId: action.payload, loading: true };
 		}
-		case GET_DETAILS_SUCCESS: {
-			return { ...state, loading: false };
-		}
 		case GET_DATE: {
 			return { ...state, date: action.payload };
 		}
@@ -31,7 +21,7 @@ export default function(state = initialState, action) {
 			return { ...state, loading: false, error: action.payload.message };
 		}
 		case DETAILS: {
-			return { ...state, result: action.payload };
+			return { ...state, loading: false, result: action.payload };
 		}
 		case TARGET_COUNTRY: {
 			return { ...state, targetCountry: action.payload };

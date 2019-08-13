@@ -1,6 +1,5 @@
 import {
 	GET_DETAILS_REQUEST,
-	GET_DETAILS_SUCCESS,
 	GET_DATE,
 	DETAILS,
 	ERROR_REQUEST,
@@ -15,10 +14,6 @@ export const getListAction = () => ({
 });
 export const getDetailsREQUESTAction = id => ({
 	type: GET_DETAILS_REQUEST,
-	payload: id,
-});
-export const getDetailsSUCCESSAction = id => ({
-	type: GET_DETAILS_SUCCESS,
 	payload: id,
 });
 export const getDateAction = date => ({
@@ -50,14 +45,13 @@ export const itemsFetchData = (date, id) => (dispatch, getState) => {
 			if (!response.ok) {
 				throw Error(response.statusText);
 			}
-
-			dispatch(getDetailsSUCCESSAction(id));
-
 			return response;
 		})
 		.then(response => {
 			return response.json();
 		})
-		.then(items => dispatch(itemsFetchDataSuccess(items)))
+		.then(items => {
+			dispatch(itemsFetchDataSuccess(items));
+		})
 		.catch(e => dispatch(itemsHasErrored(e)));
 };

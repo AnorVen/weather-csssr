@@ -35,6 +35,12 @@ class CityList extends Component {
 		}
 	}
 
+	static defaultProps = {
+		date: Date.now(),
+		cityId: 0,
+		list: [[], []],
+	};
+
 	render() {
 		console.log('CityList render');
 		const { list } = this.props;
@@ -51,11 +57,6 @@ class CityList extends Component {
 	}
 }
 
-CityList.defaultProps = {
-	date: Date.now(),
-	cityId: 0,
-	list: [[], []],
-};
 CityList.propTypes = {
 	date: PropTypes.number,
 	cityId: PropTypes.number,

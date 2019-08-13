@@ -32,6 +32,10 @@ class Header extends Component {
 			}
 		}
 	};
+	static defaultProps = {
+		currentDate: Date.now(),
+		cityId: 0,
+	};
 
 	render() {
 		console.log('Header render');
@@ -54,10 +58,6 @@ class Header extends Component {
 	}
 }
 
-Header.defaultProps = {
-	currentDate: Date.now(),
-	cityId: 0,
-};
 Header.propTypes = {
 	currentDate: PropTypes.number,
 	cityId: PropTypes.number,

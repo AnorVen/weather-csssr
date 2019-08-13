@@ -16,6 +16,15 @@ class TargetList extends Component {
 		super(props);
 		this.props.getList();
 	}
+	static defaultProps = {
+		cityList: [
+			{
+				id: 519188,
+				name: 'Novinki',
+				country: 'RU',
+			},
+		],
+	};
 
 	render() {
 		console.log('TargetList render');
@@ -50,15 +59,6 @@ class TargetList extends Component {
 	}
 }
 
-TargetList.defaultProps = {
-	cityList: [
-		{
-			id: 519188,
-			name: 'Novinki',
-			country: 'RU',
-		},
-	],
-};
 TargetList.propTypes = {
 	cityList: PropTypes.array,
 };

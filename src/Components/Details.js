@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, memo } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -9,43 +9,41 @@ const Wrap = styled.div`
 	background-color: #b3a5ff;
 `;
 
-class Details extends Component {
-	render() {
-		console.log('Details render');
-		const { isLoad, result, error } = this.props;
-		console.log(result);
-		const rend = () => {
-			if (isLoad) {
-				return <p> Загрузка...</p>;
-			}
-			if (error) {
-				return <p>{error}</p>;
-			}
-			if (!result.list) {
-				return <p>выберите город</p>;
-			} else {
-				let tempData = result.list.slice(-8);
-				return (
-					<Fragment>
-						<p> {result.city.name}</p>
-						<table>
-							<tbody>
-								{tempData.map(item => (
+const Details = ({ isLoad, result, error }) => {
+	console.log('Details render');
+	console.log(result);
+	const rend = () => {
+		if (isLoad) {
+			return <p> Загрузка...</p>;
+		}
+		if (error) {
+			return <p>{error}</p>;
+		}
+		if (!result.list) {
+			return <p>выберите город</p>;
+		} else {
+			let tempData = result.list.slice(-8);
+			return (
+				<Fragment>
+					<p> {result.city.name}</p>
+					<table>
+						<tbody>
+							{tempData &&
+								tempData.map(item => (
 									<tr key={item.dt}>
 										<td>{item.dt_txt}</td>
 										<td>{item.main.temp} *C</td>
 										<td>{item.weather[0].description}</td>
 									</tr>
 								))}
-							</tbody>
-						</table>
-					</Fragment>
-				);
-			}
-		};
-		return <Wrap>{rend()}</Wrap>;
-	}
-}
+						</tbody>
+					</table>
+				</Fragment>
+			);
+		}
+	};
+	return <Wrap>{rend()}</Wrap>;
+};
 
 Details.defaultProps = {
 	isLoad: false,
@@ -122,4 +120,4 @@ export default connect(state => {
 		result: state.getDetails.result,
 		error: state.getDetails.error,
 	};
-})(Details);
+})(memo(Details));
