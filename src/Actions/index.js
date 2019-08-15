@@ -1,6 +1,7 @@
 import {
 	GET_DETAILS_REQUEST,
 	GET_DATE,
+	GET_CITY,
 	DETAILS,
 	ERROR_REQUEST,
 	GET_LIST,
@@ -12,9 +13,12 @@ const apiKey = '108aecd085c5e10a193fa4d7440ba5cb';
 export const getListAction = () => ({
 	type: GET_LIST,
 });
-export const getDetailsREQUESTAction = id => ({
-	type: GET_DETAILS_REQUEST,
+export const getCityIdAction = id => ({
+	type: GET_CITY,
 	payload: id,
+});
+export const getDetailsREQUESTAction = () => ({
+	type: GET_DETAILS_REQUEST,
 });
 export const getDateAction = date => ({
 	type: GET_DATE,
@@ -33,13 +37,19 @@ export const itemsHasErrored = message => ({
 	type: ERROR_REQUEST,
 	payload: message,
 });
-export const itemsFetchData = (date, id) => (dispatch, getState) => {
+export const itemsFetchData = () => (dispatch, getState) => {
+	let store = getState();
+	let date = store.getDetails.date;
+	let id = store.getDetails.cityId;
+
+	if (!id) {
+		return false;
+	}
 	date = date - Date.now() > 0 ? (new Date(date - Date.now()).getDate() + 1) * 8 : 8;
-	dispatch(getDetailsREQUESTAction(id));
+	dispatch(getDetailsREQUESTAction());
 	fetch(
 		`https://api.openweathermap.org/data/2.5/forecast?id=${id}&cnt=${date}&lang=ru&units=metric&appid=${apiKey}`
 	)
-		// fetch(`https://api.openweathermap.org/data/2.5/climate/month?id=${id}&lang=ru&units=metric&appid=${apiKey}`)
 		.then(response => {
 			console.log(response);
 			if (!response.ok) {

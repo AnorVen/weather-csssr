@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { itemsFetchData } from '../Actions';
+import { itemsFetchData, getCityIdAction } from '../Actions';
 import PropTypes from 'prop-types';
 
 const List = styled.ul`
@@ -13,12 +13,11 @@ const List = styled.ul`
 
 class CityList extends Component {
 	checkCity = id => {
-		const date = this.props.date;
-		console.log(date);
-		if (id === this.props.cityId && date === this.props.date) {
+		if (id === this.props.cityId) {
 			return;
 		}
-		return this.props.getDetails(date, id);
+		this.props.getCityId(id);
+		this.props.getDetails();
 	};
 
 	shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -36,9 +35,12 @@ class CityList extends Component {
 	}
 
 	static defaultProps = {
-		date: Date.now(),
 		cityId: 0,
 		list: [[], []],
+	};
+	static propTypes = {
+		cityId: PropTypes.number,
+		list: PropTypes.array,
 	};
 
 	render() {
@@ -57,23 +59,20 @@ class CityList extends Component {
 	}
 }
 
-CityList.propTypes = {
-	date: PropTypes.number,
-	cityId: PropTypes.number,
-	list: PropTypes.array,
-};
 export default connect(
 	state => {
 		return {
 			targetCountry: state.getDetails.targetCountry,
-			date: state.getDetails.date,
 			cityId: state.getDetails.cityId,
 		};
 	},
 	dispatch => {
 		return {
-			getDetails: (date, id) => {
-				dispatch(itemsFetchData(date, id));
+			getDetails: () => {
+				dispatch(itemsFetchData());
+			},
+			getCityId: id => {
+				dispatch(getCityIdAction(id));
 			},
 		};
 	}

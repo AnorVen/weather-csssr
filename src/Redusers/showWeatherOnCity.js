@@ -1,4 +1,11 @@
-import { GET_DETAILS_REQUEST, GET_DATE, DETAILS, ERROR_REQUEST, TARGET_COUNTRY } from '../Constats';
+import {
+	GET_DETAILS_REQUEST,
+	GET_DATE,
+	DETAILS,
+	ERROR_REQUEST,
+	TARGET_COUNTRY,
+	GET_CITY,
+} from '../Constats';
 
 const initialState = {
 	targetCountry: 'AM',
@@ -12,10 +19,13 @@ const initialState = {
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case GET_DETAILS_REQUEST: {
-			return { ...state, cityId: action.payload, loading: true };
+			return { ...state, loading: true };
 		}
 		case GET_DATE: {
 			return { ...state, date: action.payload };
+		}
+		case GET_CITY: {
+			return { ...state, cityId: action.payload };
 		}
 		case ERROR_REQUEST: {
 			return { ...state, loading: false, error: action.payload.message };

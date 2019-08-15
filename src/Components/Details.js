@@ -25,7 +25,7 @@ const Details = ({ isLoad, result, error }) => {
 			let tempData = result.list.slice(-8);
 			return (
 				<Fragment>
-					<p> {result.city.name}</p>
+					<p> {result.city && result.city.name}</p>
 					<table>
 						<tbody>
 							{tempData &&

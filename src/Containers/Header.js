@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, memo } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import DatePicker from 'react-date-picker';
@@ -27,14 +27,16 @@ class Header extends Component {
 	handleChange = date => {
 		if (new Date(this.props.currentDate).getDate() !== new Date(date).getDate()) {
 			this.props.getDate(Date.parse(date));
-			if (!!this.props.cityId) {
-				this.props.getDetails(Date.parse(date), this.props.cityId);
-			}
+			this.props.getDetails();
 		}
 	};
 	static defaultProps = {
 		currentDate: Date.now(),
 		cityId: 0,
+	};
+	static propTypes = {
+		currentDate: PropTypes.number,
+		cityId: PropTypes.number,
 	};
 
 	render() {
@@ -58,15 +60,10 @@ class Header extends Component {
 	}
 }
 
-Header.propTypes = {
-	currentDate: PropTypes.number,
-	cityId: PropTypes.number,
-};
 export default connect(
 	state => {
 		return {
 			currentDate: state.getDetails.date,
-			cityId: state.getDetails.cityId,
 		};
 	},
 	dispatch => {
@@ -74,9 +71,9 @@ export default connect(
 			getDate: date => {
 				dispatch(getDateAction(date));
 			},
-			getDetails: (date, id) => {
-				dispatch(itemsFetchData(date, id));
+			getDetails: () => {
+				dispatch(itemsFetchData());
 			},
 		};
 	}
-)(Header);
+)(memo(Header));
