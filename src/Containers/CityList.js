@@ -13,9 +13,12 @@ const List = styled.ul`
 
 class CityList extends Component {
 	checkCity = id => {
+		///TODO
+		/*
+		по идее такая проверка нужна, но из-за нее происходит ререндер всех городов..
 		if (id === this.props.cityId) {
 			return;
-		}
+		}*/
 		this.props.getCityId(id);
 		this.props.getDetails();
 	};
@@ -35,11 +38,11 @@ class CityList extends Component {
 	}
 
 	static defaultProps = {
-		cityId: 0,
+		//cityId: 0,
 		list: [[], []],
 	};
 	static propTypes = {
-		cityId: PropTypes.number,
+		//cityId: PropTypes.number,
 		list: PropTypes.array,
 	};
 
@@ -63,7 +66,7 @@ export default connect(
 	state => {
 		return {
 			targetCountry: state.getDetails.targetCountry,
-			cityId: state.getDetails.cityId,
+			//cityId: state.getDetails.cityId,
 		};
 	},
 	dispatch => {
