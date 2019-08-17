@@ -25,6 +25,9 @@ class TargetList extends Component {
 			},
 		],
 	};
+	static propTypes = {
+		cityList: PropTypes.array,
+	};
 
 	render() {
 		console.log('TargetList render');
@@ -59,9 +62,6 @@ class TargetList extends Component {
 	}
 }
 
-TargetList.propTypes = {
-	cityList: PropTypes.array,
-};
 export default connect(
 	state => {
 		return {

@@ -2,7 +2,7 @@ import React, { Component, Fragment, memo } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
+import { createSelector } from 'reselect';
 const Wrap = styled.div`
 	width: 50%;
 	padding: 0 30px;
@@ -114,10 +114,23 @@ Details.propTypes = {
 		list: PropTypes.array,
 	}),
 };
+
+const resultSelect = createSelector(
+	state => state.getDetails.result,
+	result => result
+);
+const errorSelect = createSelector(
+	state => state.getDetails.error,
+	error => error
+);
+const isLoadSelect = createSelector(
+	state => state.getDetails.loading,
+	isLoad => isLoad
+);
 export default connect(state => {
 	return {
-		isLoad: state.getDetails.loading,
-		result: state.getDetails.result,
-		error: state.getDetails.error,
+		isLoad: isLoadSelect(state),
+		result: resultSelect(state),
+		error: errorSelect(state),
 	};
 })(memo(Details));

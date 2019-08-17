@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { itemsFetchData, getCityIdAction } from '../Actions';
 import PropTypes from 'prop-types';
+import { createSelector } from 'reselect';
 
 const List = styled.ul`
 	visibility: ${p => (p.show ? 'visible' : 'hidden')};
@@ -13,36 +14,16 @@ const List = styled.ul`
 
 class CityList extends Component {
 	checkCity = id => {
-		///TODO
-		/*
-		по идее такая проверка нужна, но из-за нее происходит ререндер всех городов..
-		if (id === this.props.cityId) {
-			return;
-		}*/
 		this.props.getCityId(id);
 		this.props.getDetails();
 	};
 
-	shouldComponentUpdate(nextProps, nextState, nextContext) {
-		if (nextProps.targetCountry === this.props.targetCountry) {
-			return false;
-		} else {
-			if (
-				nextProps.targetCountry !== this.props.list[0] &&
-				this.props.targetCountry !== this.props.list[0]
-			) {
-				return false;
-			}
-			return true;
-		}
-	}
-
 	static defaultProps = {
-		//cityId: 0,
+		cityId: 0,
 		list: [[], []],
 	};
 	static propTypes = {
-		//cityId: PropTypes.number,
+		cityId: PropTypes.number,
 		list: PropTypes.array,
 	};
 
@@ -62,11 +43,15 @@ class CityList extends Component {
 	}
 }
 
+const select = createSelector(
+	state => state.getDetails.targetCountry,
+	targetCountry => targetCountry
+);
+
 export default connect(
 	state => {
 		return {
-			targetCountry: state.getDetails.targetCountry,
-			//cityId: state.getDetails.cityId,
+			targetCountry: select(state),
 		};
 	},
 	dispatch => {
