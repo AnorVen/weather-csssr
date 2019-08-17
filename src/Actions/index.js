@@ -7,6 +7,7 @@ import {
 	GET_LIST,
 	TARGET_COUNTRY,
 } from '../Constats';
+import { createSelector } from 'reselect';
 
 const apiKey = '108aecd085c5e10a193fa4d7440ba5cb';
 
@@ -39,29 +40,45 @@ export const itemsHasErrored = message => ({
 });
 export const itemsFetchData = () => (dispatch, getState) => {
 	let store = getState();
-	let date = store.getDetails.date;
-	let id = store.getDetails.cityId;
+	console.log(store);
 
+	let id = store.getDetails.cityId;
 	if (!id) {
 		return false;
 	}
-	date = date - Date.now() > 0 ? (new Date(date - Date.now()).getDate() + 1) * 8 : 8;
-	dispatch(getDetailsREQUESTAction());
-	fetch(
-		`https://api.openweathermap.org/data/2.5/forecast?id=${id}&cnt=${date}&lang=ru&units=metric&appid=${apiKey}`
-	)
-		.then(response => {
-			console.log(response);
-			if (!response.ok) {
-				throw Error(response.statusText);
-			}
-			return response;
-		})
-		.then(response => {
-			return response.json();
-		})
-		.then(items => {
-			dispatch(itemsFetchDataSuccess(items));
-		})
-		.catch(e => dispatch(itemsHasErrored(e)));
+
+	const idSelect = store => store.getDetails.cityId;
+	const dateSelect = store => {
+		let date = store.getDetails.date;
+		return date - Date.now() > 0 ? (new Date(date - Date.now()).getDate() + 1) * 8 : 8;
+	};
+	const checkNewDateOrId = createSelector(
+		idSelect,
+		dateSelect,
+
+		(id, date) => {
+			console.log(id);
+			console.log(date);
+			dispatch(getDetailsREQUESTAction());
+			fetch(
+				`https://api.openweathermap.org/data/2.5/forecast?id=${id}&cnt=${date}&lang=ru&units=metric&appid=${apiKey}`
+			)
+				.then(response => {
+					console.log(response);
+					if (!response.ok) {
+						throw Error(response.statusText);
+					}
+					return response;
+				})
+				.then(response => {
+					return response.json();
+				})
+				.then(items => {
+					dispatch(itemsFetchDataSuccess(items));
+				})
+				.catch(e => dispatch(itemsHasErrored(e)));
+		}
+	);
+
+	checkNewDateOrId(store);
 };

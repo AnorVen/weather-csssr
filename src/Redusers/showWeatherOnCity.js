@@ -31,7 +31,7 @@ export default function(state = initialState, action) {
 			return { ...state, loading: false, error: action.payload.message };
 		}
 		case DETAILS: {
-			return { ...state, loading: false, result: action.payload };
+			return { ...state, loading: false, result: action.payload, error: '' };
 		}
 		case TARGET_COUNTRY: {
 			return { ...state, targetCountry: action.payload };
