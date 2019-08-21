@@ -38,6 +38,9 @@ export const itemsHasErrored = message => ({
 	type: ERROR_REQUEST,
 	payload: message,
 });
+
+let prevDate;
+let prevId;
 export const itemsFetchData = () => (dispatch, getState) => {
 	let store = getState();
 	console.log(store);
@@ -46,39 +49,32 @@ export const itemsFetchData = () => (dispatch, getState) => {
 	if (!id) {
 		return false;
 	}
+	let date = store.getDetails.date;
+	date = date - Date.now() > 0 ? (new Date(date - Date.now()).getDate() + 1) * 8 : 8;
+	console.log(id);
+	console.log(date);
+	if (prevId === id && prevDate === date) {
+		return;
+	}
+	prevId = id;
+	prevDate = date;
 
-	const idSelect = store => store.getDetails.cityId;
-	const dateSelect = store => {
-		let date = store.getDetails.date;
-		return date - Date.now() > 0 ? (new Date(date - Date.now()).getDate() + 1) * 8 : 8;
-	};
-	const checkNewDateOrId = createSelector(
-		idSelect,
-		dateSelect,
-
-		(id, date) => {
-			console.log(id);
-			console.log(date);
-			dispatch(getDetailsREQUESTAction());
-			fetch(
-				`https://api.openweathermap.org/data/2.5/forecast?id=${id}&cnt=${date}&lang=ru&units=metric&appid=${apiKey}`
-			)
-				.then(response => {
-					console.log(response);
-					if (!response.ok) {
-						throw Error(response.statusText);
-					}
-					return response;
-				})
-				.then(response => {
-					return response.json();
-				})
-				.then(items => {
-					dispatch(itemsFetchDataSuccess(items));
-				})
-				.catch(e => dispatch(itemsHasErrored(e)));
-		}
-	);
-
-	checkNewDateOrId(store);
+	dispatch(getDetailsREQUESTAction());
+	fetch(
+		`https://api.openweathermap.org/data/2.5/forecast?id=${id}&cnt=${date}&lang=ru&units=metric&appid=${apiKey}`
+	)
+		.then(response => {
+			console.log(response);
+			if (!response.ok) {
+				throw Error(response.statusText);
+			}
+			return response;
+		})
+		.then(response => {
+			return response.json();
+		})
+		.then(items => {
+			dispatch(itemsFetchDataSuccess(items));
+		})
+		.catch(e => dispatch(itemsHasErrored(e)));
 };
